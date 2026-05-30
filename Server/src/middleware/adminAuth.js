@@ -5,7 +5,10 @@
 function adminAuth(req, res, next) {
   const expected = process.env.ADMIN_API_KEY;
 
-  if (!expected) {
+  if (!expected || String(expected).trim() === "") {
+    console.error(
+      "[CONFIG] ADMIN_API_KEY is not set — rejecting admin request with 503."
+    );
     return res.status(503).json({
       success: false,
       message:

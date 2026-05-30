@@ -12,28 +12,32 @@ function logMissingEnv() {
       "[CONFIG] MONGO_URI is missing. Set it in Vercel Project Settings → Environment Variables."
     );
   }
+
   if (!process.env.GOOGLE_SCRIPT_URL) {
     console.error(
       "[CONFIG] GOOGLE_SCRIPT_URL is missing. Enquiry sync to Google Sheets will fail."
+    );
+  }
+
+  if (!process.env.ADMIN_API_KEY) {
+    console.error(
+      "[CONFIG] ADMIN_API_KEY is missing. Admin routes will return 503 until it is set."
+    );
+  } else {
+    console.log(
+      `[CONFIG] ADMIN_API_KEY is configured (length: ${process.env.ADMIN_API_KEY.length})`
     );
   }
 }
 
 logMissingEnv();
 
-function isHealthCheck(req) {
-  const path = (req.url || "").split("?")[0];
-  return path === "/health" || path === "/health/";
-}
-
 /**
- * Vercel serverless entry — no app.listen(); all traffic is routed here via vercel.json rewrites.
+ * Vercel serverless entry — no app.listen(); all traffic via vercel.json rewrite.
  */
 module.exports = async (req, res) => {
   try {
-    if (!isHealthCheck(req)) {
-      await connectDatabase();
-    }
+    await connectDatabase();
   } catch (err) {
     console.error("[DB] Connection failed:", err.message);
     return res.status(500).json({
@@ -43,5 +47,15 @@ module.exports = async (req, res) => {
     });
   }
 
-  return app(req, res);
+  return new Promise((resolve, reject) => {
+    res.on("finish", resolve);
+    res.on("close", resolve);
+    res.on("error", reject);
+
+    app(req, res, (err) => {
+      if (err) {
+        reject(err);
+      }
+    });
+  });
 };
