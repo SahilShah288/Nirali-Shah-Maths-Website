@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const { isDatabaseConnected } = require("./config/database");
 const enquiryRoutes = require("./routes/enquiryRoutes");
 const slotRoutes = require("./routes/slotRoutes");
 
@@ -9,9 +10,12 @@ app.use(cors());
 app.use(express.json());
 
 app.get("/health", (req, res) => {
-  res.json({
+  res.status(200).json({
     success: true,
     service: "Nirali Shah Maths Tuitions API",
+    environment: process.env.NODE_ENV || "development",
+    mongo: isDatabaseConnected() ? "connected" : "disconnected",
+    timestamp: new Date().toISOString(),
   });
 });
 

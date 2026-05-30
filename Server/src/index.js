@@ -1,35 +1,47 @@
 require("dotenv").config();
+
 const app = require("./app");
 const { connectDatabase } = require("./config/database");
 
-// 1. Pre-connect to Database (Vercel best practice)
-let isConnected = false;
-const connect = async () => {
-  if (isConnected) return;
-  try {
-    await connectDatabase();
-    isConnected = true;
-    console.log("Database connected");
-  } catch (err) {
-    console.error("DB Connection Error:", err.message);
+/**
+ * Log missing env vars once per cold start (visible in Vercel function logs).
+ */
+function logMissingEnv() {
+  if (!process.env.MONGO_URI) {
+    console.error(
+      "[CONFIG] MONGO_URI is missing. Set it in Vercel Project Settings → Environment Variables."
+    );
   }
-};
-
-// 2. Wrap the app logic to ensure DB is ready
-const handler = async (req, res) => {
-  await connect();
-  return app(req, res);
-};
-
-// 3. For local development
-if (process.env.NODE_ENV !== 'production') {
-  const PORT = process.env.PORT || 5000;
-  connect().then(() => {
-    app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
-    });
-  });
+  if (!process.env.GOOGLE_SCRIPT_URL) {
+    console.error(
+      "[CONFIG] GOOGLE_SCRIPT_URL is missing. Enquiry sync to Google Sheets will fail."
+    );
+  }
 }
 
-// 4. CRITICAL: Export the app for Vercel
-module.exports = handler;
+logMissingEnv();
+
+function isHealthCheck(req) {
+  const path = (req.url || "").split("?")[0];
+  return path === "/health" || path === "/health/";
+}
+
+/**
+ * Vercel serverless entry — no app.listen(); all traffic is routed here via vercel.json rewrites.
+ */
+module.exports = async (req, res) => {
+  try {
+    if (!isHealthCheck(req)) {
+      await connectDatabase();
+    }
+  } catch (err) {
+    console.error("[DB] Connection failed:", err.message);
+    return res.status(500).json({
+      success: false,
+      message: "Database connection failed",
+      error: process.env.NODE_ENV === "production" ? undefined : err.message,
+    });
+  }
+
+  return app(req, res);
+};
