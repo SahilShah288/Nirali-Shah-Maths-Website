@@ -1,0 +1,66 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    @apply bg-ghost font-sans text-slate-600 antialiased leading-relaxed;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display text-midnight;
+  }
+}
+
+@layer components {
+  .premium-input {
+    @apply w-full rounded-xl border border-slate-200 bg-white px-4 py-3.5 text-midnight shadow-sm transition-all duration-200 placeholder:text-slate-400 focus:border-cerulean focus:outline-none focus:ring-2 focus:ring-blue-100;
+  }
+
+  .premium-label {
+    @apply mb-2 block text-sm font-medium text-midnight;
+  }
+
+  .premium-card {
+    @apply rounded-3xl border border-slate-100 bg-white p-8 shadow-xl sm:p-10;
+  }
+
+  .page-hero {
+    @apply px-6 py-16 text-center sm:px-10 sm:py-20;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center rounded-xl bg-midnight px-6 py-3.5 text-sm font-semibold text-white shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:bg-slate-800 hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-6 py-3.5 text-sm font-semibold text-slate-700 transition-all duration-200 hover:-translate-y-0.5 hover:border-slate-300 hover:bg-slate-50 hover:shadow-md disabled:opacity-60 disabled:hover:translate-y-0;
+  }
+
+  .nav-pill-active {
+    @apply bg-midnight text-white shadow-sm;
+  }
+
+  .nav-pill-inactive {
+    @apply text-slate-600 hover:bg-slate-100 hover:text-midnight;
+  }
+
+  .phone-input-group {
+    @apply flex overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition-all duration-200 focus-within:border-cerulean focus-within:ring-2 focus-within:ring-blue-100;
+  }
+
+  .phone-input-group select {
+    @apply w-[7.25rem] shrink-0 cursor-pointer border-0 border-r border-slate-200 bg-ghost py-3.5 pl-3 pr-2 text-sm font-medium text-midnight focus:border-slate-200 focus:outline-none focus:ring-0 sm:w-32;
+  }
+
+  .phone-input-group input {
+    @apply min-w-0 flex-1 border-0 bg-white py-3.5 pl-3 pr-4 text-midnight placeholder:text-slate-400 focus:outline-none focus:ring-0;
+  }
+}
