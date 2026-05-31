@@ -8,6 +8,7 @@ import {
   EXAMS,
   PHONE_COUNTRY_CODES,
 } from "../constants/formOptions";
+import SplitText from "../components/SplitText";
 import {
   formatFullPhone,
   isValidLocalPhone,
@@ -119,9 +120,20 @@ export default function EnquiryPage() {
         <p className="text-xs font-semibold uppercase tracking-[0.25em] text-cerulean">
           Parent enquiry
         </p>
-        <h2 className="mx-auto mt-4 max-w-2xl font-display text-4xl font-semibold leading-tight text-midnight sm:text-5xl">
-          Start your maths journey
-        </h2>
+        <SplitText
+          tag="h2"
+          text="Start your maths journey"
+          className="mx-auto mt-4 max-w-2xl font-display text-4xl font-semibold leading-tight text-midnight sm:text-5xl"
+          delay={80}
+          duration={0.65}
+          ease="power3.out"
+          splitType="chars"
+          from={{ opacity: 0, y: 36 }}
+          to={{ opacity: 1, y: 0 }}
+          threshold={0.15}
+          rootMargin="-80px"
+          textAlign="center"
+        />
         <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-slate-600 sm:text-lg">
           Tell us about your child&apos;s learning needs. Expert tuition for
           Classes 4–12 across CBSE, ICSE, IB, IGCSE, and State boards.

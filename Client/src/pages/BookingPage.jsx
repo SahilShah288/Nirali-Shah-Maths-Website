@@ -4,6 +4,7 @@ import WeeklySlotGrid, {
   startOfWeekMonday,
 } from "../components/WeeklySlotGrid";
 import { bookSlot, fetchSlots } from "../api/slotsApi";
+import SplitText from "../components/SplitText";
 import { addDays, formatWeekRange } from "../utils/dates";
 
 export default function BookingPage() {
@@ -57,9 +58,20 @@ export default function BookingPage() {
         <p className="text-xs font-semibold uppercase tracking-[0.25em] text-cerulean">
           Schedule
         </p>
-        <h2 className="mt-4 font-display text-4xl font-semibold text-midnight sm:text-5xl">
-          Book a Tuition Slot
-        </h2>
+        <SplitText
+          tag="h2"
+          text="Book a Tuition Slot"
+          className="mt-4 font-display text-4xl font-semibold text-midnight sm:text-5xl"
+          delay={80}
+          duration={0.65}
+          ease="power3.out"
+          splitType="chars"
+          from={{ opacity: 0, y: 36 }}
+          to={{ opacity: 1, y: 0 }}
+          threshold={0.15}
+          rootMargin="-80px"
+          textAlign="center"
+        />
         <p className="mx-auto mt-6 max-w-lg text-base leading-relaxed text-slate-600 sm:text-lg">
           Choose an available slot from the weekly schedule below. Green slots
           are open; occupied slots cannot be selected.
