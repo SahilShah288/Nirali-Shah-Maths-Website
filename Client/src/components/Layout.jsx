@@ -47,7 +47,7 @@ export default function Layout({ children }) {
             <NavLink to="/" end className={desktopNavClass}>
               Enquiry
             </NavLink>
-            <NavLink to="/booking" className={desktopNavClass}>
+            <NavLink to="/book-slot" className={desktopNavClass}>
               Book a Slot
             </NavLink>
           </nav>
@@ -85,7 +85,7 @@ export default function Layout({ children }) {
                 <NavLink to="/" end className={navClass} onClick={closeMenu}>
                   Enquiry
                 </NavLink>
-                <NavLink to="/booking" className={navClass} onClick={closeMenu}>
+                <NavLink to="/book-slot" className={navClass} onClick={closeMenu}>
                   Book a Slot
                 </NavLink>
               </div>
