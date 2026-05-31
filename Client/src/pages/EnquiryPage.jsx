@@ -123,7 +123,7 @@ export default function EnquiryPage() {
         <SplitText
           tag="h2"
           text="Start your maths journey"
-          className="mx-auto mt-4 max-w-2xl font-display text-4xl font-semibold leading-tight text-midnight sm:text-5xl"
+          className="page-hero-title split-parent"
           delay={80}
           duration={0.65}
           ease="power3.out"
@@ -134,7 +134,7 @@ export default function EnquiryPage() {
           rootMargin="-80px"
           textAlign="center"
         />
-        <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-slate-600 sm:text-lg">
+        <p className="page-hero-text">
           Tell us about your child&apos;s learning needs. Expert tuition for
           Classes 4–12 across CBSE, ICSE, IB, IGCSE, and State boards.
         </p>
@@ -205,7 +205,7 @@ export default function EnquiryPage() {
           </p>
         </div>
 
-        <div className="grid gap-7 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-7">
           <div>
             <label htmlFor="enquiry-country" className="premium-label">
               Country <span className="text-red-500">*</span>
@@ -272,13 +272,13 @@ export default function EnquiryPage() {
             Competitive exams{" "}
             <span className="font-normal text-slate-500">(optional)</span>
           </legend>
-          <div className="mt-2 flex flex-wrap gap-3">
+          <div className="mt-2 flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:gap-3">
             {EXAMS.map((exam) => {
               const selected = form.competitiveExams.includes(exam);
               return (
                 <label
                   key={exam}
-                  className={`flex cursor-pointer items-center gap-2.5 rounded-xl border px-4 py-2.5 text-sm font-medium transition-all duration-200 ${
+                  className={`flex min-h-[3rem] w-full cursor-pointer items-center gap-2.5 rounded-xl border px-4 py-3 text-base font-medium transition-all duration-200 sm:w-auto sm:py-2.5 sm:text-sm ${
                     selected
                       ? "border-cerulean bg-white text-midnight shadow-sm ring-2 ring-blue-100"
                       : "border-slate-200 bg-white text-slate-600 hover:border-cerulean/50"
@@ -297,11 +297,7 @@ export default function EnquiryPage() {
           </div>
         </fieldset>
 
-        <button
-          type="submit"
-          disabled={loading}
-          className="btn-primary w-full py-4"
-        >
+        <button type="submit" disabled={loading} className="btn-primary">
           {loading ? "Submitting…" : "Submit Enquiry"}
         </button>
       </form>

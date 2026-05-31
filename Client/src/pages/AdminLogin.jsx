@@ -24,7 +24,7 @@ export default function AdminLogin({ onSuccess }) {
 
   return (
     <div className="premium-card mx-auto max-w-sm animate-fade-in">
-      <h2 className="font-display text-center text-2xl font-semibold text-midnight">
+      <h2 className="font-display text-center text-xl font-semibold text-midnight sm:text-2xl">
         Admin Login
       </h2>
       <p className="mt-2 text-center text-sm text-slate-600">

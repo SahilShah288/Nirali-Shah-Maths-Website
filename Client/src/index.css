@@ -5,10 +5,19 @@
 @layer base {
   html {
     @apply scroll-smooth;
+    max-width: 100%;
+    overflow-x: hidden;
   }
 
   body {
-    @apply bg-ghost font-sans text-slate-600 antialiased leading-relaxed;
+    @apply bg-ghost font-sans text-base text-slate-600 antialiased leading-relaxed;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  #root {
+    max-width: 100%;
+    overflow-x: hidden;
   }
 
   h1,
@@ -17,31 +26,61 @@
   h4 {
     @apply font-display text-midnight;
   }
+
+  img,
+  video,
+  svg {
+    max-width: 100%;
+    height: auto;
+  }
+
+  input,
+  select,
+  textarea,
+  button {
+    font-size: 16px;
+  }
 }
 
 @layer components {
+  .app-shell {
+    @apply relative flex min-h-screen w-full max-w-[100vw] flex-col overflow-x-hidden;
+  }
+
+  .app-main {
+    @apply mx-auto w-full max-w-6xl flex-1 px-4 py-8 sm:px-6 sm:py-14;
+  }
+
   .premium-input {
-    @apply w-full rounded-xl border border-slate-200 bg-white px-4 py-3.5 text-midnight shadow-sm transition-all duration-200 placeholder:text-slate-400 focus:border-cerulean focus:outline-none focus:ring-2 focus:ring-blue-100;
+    @apply w-full min-h-[3rem] rounded-xl border border-slate-200 bg-white px-4 py-3.5 text-base text-midnight shadow-sm transition-all duration-200 placeholder:text-slate-400 focus:border-cerulean focus:outline-none focus:ring-2 focus:ring-blue-100;
   }
 
   .premium-label {
-    @apply mb-2 block text-sm font-medium text-midnight;
+    @apply mb-2 block text-sm font-medium text-midnight sm:text-base;
   }
 
   .premium-card {
-    @apply rounded-3xl border border-slate-100 bg-white p-8 shadow-xl sm:p-10;
+    @apply w-full max-w-full rounded-2xl border border-slate-100 bg-white p-5 shadow-xl sm:rounded-3xl sm:p-8 md:p-10;
   }
 
   .page-hero {
-    @apply px-6 py-16 text-center sm:px-10 sm:py-20;
+    @apply px-4 py-10 text-center sm:px-8 sm:py-16 md:py-20;
+  }
+
+  .page-hero-title {
+    @apply mx-auto mt-4 max-w-2xl font-display text-2xl font-semibold leading-tight text-midnight sm:text-4xl md:text-5xl;
+  }
+
+  .page-hero-text {
+    @apply mx-auto mt-4 max-w-xl text-base leading-relaxed text-slate-600 sm:mt-6 sm:text-lg;
   }
 
   .btn-primary {
-    @apply inline-flex items-center justify-center rounded-xl bg-midnight px-6 py-3.5 text-sm font-semibold text-white shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:bg-slate-800 hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0;
+    @apply inline-flex min-h-[3rem] w-full items-center justify-center rounded-xl bg-midnight px-6 py-3.5 text-base font-semibold text-white shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:bg-slate-800 hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0 sm:w-auto;
   }
 
   .btn-secondary {
-    @apply inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-6 py-3.5 text-sm font-semibold text-slate-700 transition-all duration-200 hover:-translate-y-0.5 hover:border-slate-300 hover:bg-slate-50 hover:shadow-md disabled:opacity-60 disabled:hover:translate-y-0;
+    @apply inline-flex min-h-[3rem] w-full items-center justify-center rounded-xl border border-slate-200 bg-white px-6 py-3.5 text-base font-semibold text-slate-700 transition-all duration-200 hover:-translate-y-0.5 hover:border-slate-300 hover:bg-slate-50 hover:shadow-md disabled:opacity-60 disabled:hover:translate-y-0 sm:w-auto;
   }
 
   .nav-pill-active {
@@ -52,16 +91,40 @@
     @apply text-slate-600 hover:bg-slate-100 hover:text-midnight;
   }
 
+  .nav-mobile-link {
+    @apply flex min-h-[3rem] w-full items-center rounded-xl px-4 text-base font-semibold transition-colors;
+  }
+
   .phone-input-group {
-    @apply flex overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition-all duration-200 focus-within:border-cerulean focus-within:ring-2 focus-within:ring-blue-100;
+    @apply flex w-full flex-col overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition-all duration-200 focus-within:border-cerulean focus-within:ring-2 focus-within:ring-blue-100 sm:flex-row;
   }
 
   .phone-input-group select {
-    @apply w-[7.25rem] shrink-0 cursor-pointer border-0 border-r border-slate-200 bg-ghost py-3.5 pl-3 pr-2 text-sm font-medium text-midnight focus:border-slate-200 focus:outline-none focus:ring-0 sm:w-32;
+    @apply min-h-[3rem] w-full cursor-pointer border-0 border-slate-200 bg-ghost px-4 py-3.5 text-base font-medium text-midnight focus:outline-none focus:ring-0 sm:w-32 sm:shrink-0 sm:border-b-0 sm:border-r;
   }
 
   .phone-input-group input {
-    @apply min-w-0 flex-1 border-0 bg-white py-3.5 pl-3 pr-4 text-midnight placeholder:text-slate-400 focus:outline-none focus:ring-0;
+    @apply min-h-[3rem] min-w-0 flex-1 border-0 bg-white px-4 py-3.5 text-base text-midnight placeholder:text-slate-400 focus:outline-none focus:ring-0;
+  }
+
+  .admin-card {
+    @apply rounded-xl border border-slate-100 bg-white p-4 shadow-sm;
+  }
+
+  .admin-card-label {
+    @apply text-xs font-semibold uppercase tracking-wide text-slate-500;
+  }
+
+  .admin-card-value {
+    @apply mt-0.5 text-sm font-medium text-midnight;
+  }
+
+  .table-scroll {
+    @apply -mx-4 overflow-x-auto px-4 sm:mx-0 sm:px-0;
+  }
+
+  .table-scroll-hint {
+    @apply border-b border-slate-100 bg-ghost px-4 py-2 text-center text-xs text-slate-500 md:hidden;
   }
 
   .split-parent .split-char,

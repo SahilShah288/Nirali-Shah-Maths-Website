@@ -51,19 +51,19 @@ export default function BookingModal({ slot, onClose, onConfirm, loading }) {
                 placeholder="Student name"
               />
             </div>
-            <div className="flex gap-3">
+            <div className="flex flex-col gap-3 sm:flex-row">
               <button
                 type="button"
                 onClick={onClose}
                 disabled={loading}
-                className="btn-secondary flex-1"
+                className="btn-secondary sm:flex-1"
               >
                 Cancel
               </button>
               <button
                 type="submit"
                 disabled={loading || !name.trim()}
-                className="btn-primary flex-1"
+                className="btn-primary sm:flex-1"
               >
                 {loading ? "Booking…" : "Confirm booking"}
               </button>

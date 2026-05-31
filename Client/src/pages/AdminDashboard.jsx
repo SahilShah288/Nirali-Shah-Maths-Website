@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { Download, Trash2 } from "lucide-react";
+import EnquiryDataView from "../components/admin/EnquiryDataView";
+import SlotDataView from "../components/admin/SlotDataView";
 import ConfirmDeleteModal from "../components/ConfirmDeleteModal";
 import EditSlotModal from "../components/EditSlotModal";
 import { deleteAllEnquiries, fetchEnquiries } from "../api/enquiryApi";
@@ -9,8 +11,7 @@ import {
   fetchSlots,
   updateSlot,
 } from "../api/slotsApi";
-import { formatDisplayDate, isoDateAtMidnight, parseSlotDate } from "../utils/dates";
-import { formatEnquiryPhone } from "../utils/enquiryDisplay";
+import { isoDateAtMidnight } from "../utils/dates";
 import { exportEnquiriesToExcel } from "../utils/exportEnquiries";
 
 export default function AdminDashboard({ onLogout }) {
@@ -126,19 +127,19 @@ export default function AdminDashboard({ onLogout }) {
 
   return (
     <div className="space-y-10">
-      <div className="flex flex-wrap items-center justify-between gap-4">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h2 className="font-display text-3xl font-semibold text-midnight">
+          <h2 className="font-display text-2xl font-semibold text-midnight sm:text-3xl">
             Admin Dashboard
           </h2>
-          <p className="text-sm text-slate-600">
+          <p className="mt-1 text-base text-slate-600 sm:text-sm">
             Manage enquiries and tuition slots
           </p>
         </div>
         <button
           type="button"
           onClick={onLogout}
-          className="btn-secondary px-4 py-2 text-sm"
+          className="btn-secondary shrink-0"
         >
           Log out
         </button>
@@ -154,23 +155,23 @@ export default function AdminDashboard({ onLogout }) {
         <p className="text-slate-500">Loading dashboard…</p>
       ) : (
         <>
-          <section className="overflow-hidden rounded-3xl border border-slate-100 bg-white shadow-xl">
-            <div className="border-b border-slate-100 bg-ghost px-6 py-4">
-              <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <section className="overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-xl sm:rounded-3xl">
+            <div className="border-b border-slate-100 bg-ghost px-4 py-4 sm:px-6">
+              <div className="flex flex-col gap-4">
                 <div>
-                  <h3 className="font-display text-xl font-semibold text-midnight">
+                  <h3 className="font-display text-lg font-semibold text-midnight sm:text-xl">
                     Enquiries received
                   </h3>
                   <p className="text-sm text-slate-600">
                     {enquiries.length} total
                   </p>
                 </div>
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap">
                   <button
                     type="button"
                     onClick={handleExportExcel}
                     disabled={enquiries.length === 0}
-                    className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-midnight shadow-sm transition-all hover:-translate-y-0.5 hover:border-cerulean/40 hover:bg-blue-50 disabled:cursor-not-allowed disabled:opacity-50"
+                    className="inline-flex min-h-[3rem] w-full items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-3 text-base font-semibold text-midnight shadow-sm transition-all hover:border-cerulean/40 hover:bg-blue-50 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto sm:py-2.5 sm:text-sm"
                   >
                     <Download className="h-4 w-4 text-cerulean" aria-hidden />
                     Export to Excel
@@ -179,7 +180,7 @@ export default function AdminDashboard({ onLogout }) {
                     type="button"
                     onClick={handleClearAllClick}
                     disabled={enquiries.length === 0}
-                    className="inline-flex items-center gap-2 rounded-xl border-2 border-red-200 bg-white px-4 py-2.5 text-sm font-semibold text-red-600 transition-all hover:-translate-y-0.5 hover:border-red-300 hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-50"
+                    className="inline-flex min-h-[3rem] w-full items-center justify-center gap-2 rounded-xl border-2 border-red-200 bg-white px-4 py-3 text-base font-semibold text-red-600 transition-all hover:border-red-300 hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto sm:py-2.5 sm:text-sm"
                   >
                     <Trash2 className="h-4 w-4" aria-hidden />
                     Clear All Enquiries
@@ -187,51 +188,7 @@ export default function AdminDashboard({ onLogout }) {
                 </div>
               </div>
             </div>
-            <div className="overflow-x-auto">
-              <table className="w-full min-w-[720px] text-sm">
-                <thead className="bg-ghost text-left text-slate-600">
-                  <tr>
-                    <th className="px-4 py-3 font-medium">Date</th>
-                    <th className="px-4 py-3 font-medium">Name</th>
-                    <th className="px-4 py-3 font-medium">Phone</th>
-                    <th className="px-4 py-3 font-medium">Country</th>
-                    <th className="px-4 py-3 font-medium">Class</th>
-                    <th className="px-4 py-3 font-medium">Board</th>
-                    <th className="px-4 py-3 font-medium">Exams</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {enquiries.length === 0 ? (
-                    <tr>
-                      <td colSpan={7} className="px-4 py-8 text-center text-slate-400">
-                        No enquiries yet
-                      </td>
-                    </tr>
-                  ) : (
-                    enquiries.map((row) => (
-                      <tr
-                        key={row._id}
-                        className="border-t border-slate-100 hover:bg-ghost"
-                      >
-                        <td className="px-4 py-3 whitespace-nowrap">
-                          {formatDisplayDate(row.timestamp)}
-                        </td>
-                        <td className="px-4 py-3 font-medium">{row.name}</td>
-                        <td className="px-4 py-3 whitespace-nowrap text-slate-600">
-                          {formatEnquiryPhone(row)}
-                        </td>
-                        <td className="px-4 py-3">{row.country}</td>
-                        <td className="px-4 py-3">Class {row.class}</td>
-                        <td className="px-4 py-3">{row.board}</td>
-                        <td className="px-4 py-3">
-                          {(row.competitiveExams || []).join(", ") || "—"}
-                        </td>
-                      </tr>
-                    ))
-                  )}
-                </tbody>
-              </table>
-            </div>
+            <EnquiryDataView enquiries={enquiries} />
           </section>
 
           <section className="premium-card">
@@ -240,9 +197,9 @@ export default function AdminDashboard({ onLogout }) {
             </h3>
             <form
               onSubmit={handleAddSlot}
-              className="mt-4 flex flex-wrap items-end gap-4"
+              className="mt-4 flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-end"
             >
-              <div>
+              <div className="w-full sm:w-auto sm:min-w-[10rem] sm:flex-1">
                 <label className="premium-label">Date</label>
                 <input
                   type="date"
@@ -252,7 +209,7 @@ export default function AdminDashboard({ onLogout }) {
                   className="premium-input"
                 />
               </div>
-              <div>
+              <div className="w-full sm:w-auto sm:min-w-[10rem] sm:flex-1">
                 <label className="premium-label">Time</label>
                 <input
                   type="time"
@@ -265,83 +222,24 @@ export default function AdminDashboard({ onLogout }) {
               <button
                 type="submit"
                 disabled={addingSlot}
-                className="btn-primary px-5 py-2.5"
+                className="btn-primary w-full sm:w-auto"
               >
                 {addingSlot ? "Adding…" : "Add slot"}
               </button>
             </form>
           </section>
 
-          <section className="overflow-hidden rounded-3xl border border-slate-100 bg-white shadow-xl">
-            <div className="border-b border-slate-100 bg-ghost px-6 py-4">
-              <h3 className="font-display text-xl font-semibold text-midnight">
+          <section className="overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-xl sm:rounded-3xl">
+            <div className="border-b border-slate-100 bg-ghost px-4 py-4 sm:px-6">
+              <h3 className="font-display text-lg font-semibold text-midnight sm:text-xl">
                 Slot manager
               </h3>
             </div>
-            <div className="overflow-x-auto">
-              <table className="w-full min-w-[640px] text-sm">
-                <thead className="bg-ghost text-left text-slate-600">
-                  <tr>
-                    <th className="px-4 py-3 font-medium">Date</th>
-                    <th className="px-4 py-3 font-medium">Time</th>
-                    <th className="px-4 py-3 font-medium">Status</th>
-                    <th className="px-4 py-3 font-medium">Student</th>
-                    <th className="px-4 py-3 font-medium text-right">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {slots.length === 0 ? (
-                    <tr>
-                      <td colSpan={5} className="px-4 py-8 text-center text-slate-400">
-                        No slots scheduled
-                      </td>
-                    </tr>
-                  ) : (
-                    slots.map((slot) => (
-                      <tr
-                        key={slot._id}
-                        className="border-t border-slate-100"
-                      >
-                        <td className="px-4 py-3">
-                          {formatDisplayDate(slot.date)}
-                        </td>
-                        <td className="px-4 py-3">{slot.time}</td>
-                        <td className="px-4 py-3">
-                          <span
-                            className={`inline-block rounded-full px-2.5 py-0.5 text-xs font-semibold ${
-                              slot.isBooked
-                                ? "bg-slate-200 text-slate-700"
-                                : "bg-emerald-100 text-emerald-800"
-                            }`}
-                          >
-                            {slot.isBooked ? "Occupied" : "Available"}
-                          </span>
-                        </td>
-                        <td className="px-4 py-3">
-                          {slot.studentName || "—"}
-                        </td>
-                        <td className="px-4 py-3 text-right space-x-2">
-                          <button
-                            type="button"
-                            onClick={() => setEditingSlot(slot)}
-                            className="rounded-lg border border-cerulean/30 px-3 py-1 text-xs font-medium text-cerulean transition-all hover:-translate-y-0.5 hover:bg-blue-50"
-                          >
-                            Edit
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() => handleDelete(slot._id)}
-                            className="rounded-lg border border-red-200 px-3 py-1 text-xs font-medium text-red-600 hover:bg-red-50"
-                          >
-                            Delete
-                          </button>
-                        </td>
-                      </tr>
-                    ))
-                  )}
-                </tbody>
-              </table>
-            </div>
+            <SlotDataView
+              slots={slots}
+              onEdit={setEditingSlot}
+              onDelete={handleDelete}
+            />
           </section>
         </>
       )}

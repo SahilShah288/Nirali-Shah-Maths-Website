@@ -79,19 +79,19 @@ export default function EditSlotModal({ slot, onClose, onSave, loading }) {
             </>
           )}
 
-          <div className="flex gap-3 pt-2">
+          <div className="flex flex-col gap-3 pt-2 sm:flex-row">
             <button
               type="button"
               onClick={onClose}
               disabled={loading}
-              className="btn-secondary flex-1"
+              className="btn-secondary sm:flex-1"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="btn-primary flex-1"
+              className="btn-primary sm:flex-1"
             >
               {loading ? "Saving…" : "Save changes"}
             </button>

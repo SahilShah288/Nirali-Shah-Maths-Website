@@ -61,7 +61,7 @@ export default function BookingPage() {
         <SplitText
           tag="h2"
           text="Book a Tuition Slot"
-          className="mt-4 font-display text-4xl font-semibold text-midnight sm:text-5xl"
+          className="page-hero-title split-parent"
           delay={80}
           duration={0.65}
           ease="power3.out"
@@ -72,7 +72,7 @@ export default function BookingPage() {
           rootMargin="-80px"
           textAlign="center"
         />
-        <p className="mx-auto mt-6 max-w-lg text-base leading-relaxed text-slate-600 sm:text-lg">
+        <p className="page-hero-text max-w-lg">
           Choose an available slot from the weekly schedule below. Green slots
           are open; occupied slots cannot be selected.
         </p>

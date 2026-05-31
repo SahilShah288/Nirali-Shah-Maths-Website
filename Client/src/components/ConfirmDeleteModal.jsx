@@ -39,12 +39,12 @@ export default function ConfirmDeleteModal({
           </div>
         </div>
 
-        <div className="mt-6 flex gap-3">
+        <div className="mt-6 flex flex-col gap-3 sm:flex-row">
           <button
             type="button"
             onClick={onClose}
             disabled={loading}
-            className="btn-secondary flex-1"
+            className="btn-secondary sm:flex-1"
           >
             Cancel
           </button>
@@ -52,7 +52,7 @@ export default function ConfirmDeleteModal({
             type="button"
             onClick={onConfirm}
             disabled={loading}
-            className="flex-1 rounded-xl border-2 border-red-200 bg-white px-4 py-3 text-sm font-semibold text-red-600 transition-all hover:-translate-y-0.5 hover:border-red-300 hover:bg-red-50 disabled:opacity-60"
+            className="min-h-[3rem] w-full rounded-xl border-2 border-red-200 bg-white px-4 py-3 text-base font-semibold text-red-600 transition-all hover:border-red-300 hover:bg-red-50 disabled:opacity-60 sm:flex-1 sm:text-sm"
           >
             {loading ? "Deleting…" : confirmLabel}
           </button>

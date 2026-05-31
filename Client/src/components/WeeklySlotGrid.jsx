@@ -37,43 +37,44 @@ export default function WeeklySlotGrid({
     allTimes.length > 0 ? allTimes : ["09:00", "10:00", "11:00", "16:00", "17:00"];
 
   return (
-    <div className="overflow-hidden rounded-3xl border border-slate-100 bg-white shadow-xl">
-      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-100 bg-ghost px-5 py-4">
+    <div className="overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-xl sm:rounded-3xl">
+      <div className="flex flex-col gap-3 border-b border-slate-100 bg-ghost px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:px-5">
         <button
           type="button"
           onClick={onPrevWeek}
-          className="btn-secondary px-4 py-2 text-sm"
+          className="btn-secondary order-2 w-full text-sm sm:order-1 sm:w-auto"
         >
           ← Previous
         </button>
-        <p className="text-center font-display text-base font-semibold text-midnight sm:text-lg">
+        <p className="order-1 text-center font-display text-base font-semibold text-midnight sm:order-2 sm:text-lg">
           {weekLabel}
         </p>
         <button
           type="button"
           onClick={onNextWeek}
-          className="btn-secondary px-4 py-2 text-sm"
+          className="btn-secondary order-3 w-full text-sm sm:order-3 sm:w-auto"
         >
           Next →
         </button>
       </div>
 
-      <div className="overflow-x-auto">
+      <p className="table-scroll-hint">Swipe horizontally to view the full week →</p>
+      <div className="table-scroll">
         <table className="w-full min-w-[680px] border-collapse text-sm">
           <thead>
             <tr className="bg-ghost">
-              <th className="border-b border-slate-100 px-4 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-500">
+              <th className="border-b border-slate-100 px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-500 sm:px-4 sm:py-4">
                 Time
               </th>
               {days.map((day) => (
                 <th
                   key={day.key}
-                  className="border-b border-slate-100 px-2 py-4 text-center"
+                  className="border-b border-slate-100 px-1 py-3 text-center sm:px-2 sm:py-4"
                 >
-                  <span className="block text-sm font-semibold text-midnight">
+                  <span className="block text-xs font-semibold text-midnight sm:text-sm">
                     {day.label}
                   </span>
-                  <span className="mt-0.5 block text-xs font-medium text-slate-500">
+                  <span className="mt-0.5 block text-[10px] font-medium text-slate-500 sm:text-xs">
                     {day.date.getDate()}{" "}
                     {day.date.toLocaleString("en-IN", { month: "short" })}
                   </span>
@@ -84,7 +85,7 @@ export default function WeeklySlotGrid({
           <tbody>
             {timesToShow.map((time) => (
               <tr key={time} className="border-b border-slate-50 last:border-0">
-                <td className="px-4 py-3 font-semibold tabular-nums text-midnight">
+                <td className="px-3 py-2 font-semibold tabular-nums text-midnight sm:px-4 sm:py-3">
                   {time}
                 </td>
                 {days.map((day) => {
@@ -96,9 +97,9 @@ export default function WeeklySlotGrid({
                     return (
                       <td
                         key={`${day.key}-${time}`}
-                        className="px-2 py-2.5 text-center"
+                        className="px-1 py-2 text-center sm:px-2 sm:py-2.5"
                       >
-                        <span className="inline-flex h-11 w-full items-center justify-center rounded-xl bg-slate-50 text-slate-300">
+                        <span className="inline-flex h-12 w-full min-w-[4.5rem] items-center justify-center rounded-xl bg-slate-50 text-slate-300 sm:h-11">
                           —
                         </span>
                       </td>
@@ -108,7 +109,7 @@ export default function WeeklySlotGrid({
                   const available = !cellSlot.isBooked;
 
                   return (
-                    <td key={`${day.key}-${time}`} className="px-2 py-2.5">
+                    <td key={`${day.key}-${time}`} className="px-1 py-2 sm:px-2 sm:py-2.5">
                       <button
                         type="button"
                         disabled={!available}
@@ -118,13 +119,13 @@ export default function WeeklySlotGrid({
                             ? "Click to book"
                             : `Booked by ${cellSlot.studentName || "someone"}`
                         }
-                        className={`flex h-11 w-full items-center justify-center rounded-xl border text-xs font-semibold uppercase tracking-wide transition-all duration-200 ${
+                        className={`flex h-12 w-full min-w-[4.5rem] items-center justify-center rounded-xl border px-1 text-[10px] font-semibold uppercase tracking-wide transition-all duration-200 sm:h-11 sm:text-xs ${
                           available
-                            ? "cursor-pointer border-emerald-200 bg-emerald-50 text-emerald-800 hover:-translate-y-0.5 hover:border-emerald-300 hover:shadow-md"
+                            ? "cursor-pointer border-emerald-200 bg-emerald-50 text-emerald-800 hover:border-emerald-300 hover:shadow-md active:scale-[0.98]"
                             : "cursor-not-allowed border-slate-200 bg-slate-100 text-slate-500"
                         }`}
                       >
-                        {available ? "Available" : "Occupied"}
+                        {available ? "Open" : "Full"}
                       </button>
                     </td>
                   );
@@ -135,7 +136,7 @@ export default function WeeklySlotGrid({
         </table>
       </div>
 
-      <div className="flex flex-wrap justify-center gap-6 border-t border-slate-100 bg-ghost px-5 py-4 text-xs font-medium text-slate-600">
+      <div className="flex flex-col items-center justify-center gap-3 border-t border-slate-100 bg-ghost px-4 py-4 text-xs font-medium text-slate-600 sm:flex-row sm:gap-6 sm:px-5">
         <span className="flex items-center gap-2">
           <span className="h-4 w-10 rounded-lg border border-emerald-200 bg-emerald-50" />
           Available
